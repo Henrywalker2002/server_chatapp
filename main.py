@@ -22,8 +22,6 @@ def signin():
         if rc == 0:
             return jsonify("not ok")
         rc = cursor.execute("UPDATE account set IP = %s, Port = %s, STATUS = %s WHERE username = %s", (IP, port, "on", username))
-        if rc == 0:
-            return jsonify("not ok")
         conn.commit()
         return jsonify("OK")
     except Exception as e:
