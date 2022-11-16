@@ -8,7 +8,7 @@ from flask import flash, request
 def index():
     return "OK"
 
-@app.route('/acc', methods = ['GET'])
+@app.route('/acc', methods = ['GET', 'POST'])
 def signin():
     try:
         conn = mysql.connect()
