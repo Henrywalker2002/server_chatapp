@@ -5,6 +5,10 @@ from flask import jsonify
 from flask import flash, request
 from tkinter import *
 
+@app.route('/')
+def index():
+    return "OK"
+
 @app.route('/acc', methods = ['GET'])
 def signin():
     try:
