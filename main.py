@@ -48,6 +48,7 @@ def setOff():
             d = {"result":"fail"}
             return jsonify(d)
         d = {"result":"ok"}
+        con.commit()
         return jsonify(d)
     except Exception as e:
         print(e)
@@ -68,6 +69,7 @@ def updateId():
         if rc == 0:
             d = {"result":"fail"}
             return jsonify(d)
+        conn.commit()
         d = {"result":"ok"}
         return jsonify(d)
     except Exception as e:
