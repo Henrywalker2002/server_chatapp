@@ -23,9 +23,10 @@ def signin():
             d = {"username":username, "pass": password, "STATUS":"on", "ID": ""}
             return jsonify(d)
         if password != res[0]['pass']:
-            return jsonify("wrong pass")
+            d = {"result":"fail", "message":"wrong password"}
+            return jsonify(d)
         cursor.execute("update account set isOnl = 1 where username = %s" , username)
-        d = {"username":username, "pass": password, "isOnl": 1 , "ID": res[0]['ID']}
+        d = {"username":username, "pass": password, "isOnl": 1 , "ID": res[0]['ID'], "result":"ok"}
         conn.commit()
         return jsonify(d)
     except Exception as e:
@@ -44,8 +45,31 @@ def setOff():
         username = json_['username']
         rc = cursor.execute('update account set isOnl = 0 where username = %s', username)
         if rc == 0:
-            return jsonify("not ok")
-        return jsonify("OK")
+            d = {"result":"fail"}
+            return jsonify(d)
+        d = {"result":"ok"}
+        return jsonify(d)
+    except Exception as e:
+        print(e)
+    finally:
+        if conn.open:
+            cursor.close()
+            conn.close()
+            
+@app.route('/updateId', methods = ['GET', 'POST', 'PUT'])
+def updateId():
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        json_ = request.json
+        username = json_['username']
+        id = json_['id']
+        rc = cursor.execute("update account set id = %s where username = %s", (id , username))
+        if rc == 0:
+            d = {"result":"fail"}
+            return jsonify(d)
+        d = {"result":"ok"}
+        return jsonify(d)
     except Exception as e:
         print(e)
     finally:
