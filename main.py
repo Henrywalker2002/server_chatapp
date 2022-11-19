@@ -48,7 +48,7 @@ def setOff():
             d = {"result":"fail"}
             return jsonify(d)
         d = {"result":"ok"}
-        con.commit()
+        conn.commit()
         return jsonify(d)
     except Exception as e:
         print(e)
@@ -79,5 +79,24 @@ def updateId():
             cursor.close()
             conn.close()
 
+@app.route('/getId', methods = ['GET', 'POST'])
+def getId():
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        json_ = request.json
+        username = json_['username']
+        rc = cursor.execute("select id from account where username = %s", username)
+        if rc == 0:
+            d = {"result":"fail", "message" : "no id find"}
+            return jsonify(d)
+        d = {"result":"ok", "message":"success", "id":cursor._result.rows[0][0]}
+        return d
+    except Exception as e:
+        print(e)
+    finally:
+        if conn.open:
+            cursor.close()
+            conn.close()
 if __name__ == '__main__':
     app.run()
