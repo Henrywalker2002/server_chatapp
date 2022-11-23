@@ -20,6 +20,7 @@ def signin():
         res = cursor.fetchall()
         if rc == 0:
             cursor.execute("insert into account(username,pass, isOnl) values (%s, %s, %s)", (username, password, "on"))
+            conn.commit()
             d = {"username":username, "pass": password, "isOnl": 1, "ID": ""}
             return jsonify(d)
         if password != res[0]['pass']:
