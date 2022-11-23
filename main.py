@@ -19,8 +19,8 @@ def signin():
         rc = cursor.execute("SELECT * from account WHERE username = %s", (username))
         res = cursor.fetchall()
         if rc == 0:
-            cursor.execute("insert into account(username,pass, status) values (%s, %s, %s)", (username, password, "on"))
-            d = {"username":username, "pass": password, "STATUS":"on", "ID": ""}
+            cursor.execute("insert into account(username,pass, isOnl) values (%s, %s, %s)", (username, password, "on"))
+            d = {"username":username, "pass": password, "isOnl": 1, "ID": ""}
             return jsonify(d)
         if password != res[0]['pass']:
             d = {"result":"fail", "message":"wrong password"}
