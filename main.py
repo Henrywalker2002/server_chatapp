@@ -20,6 +20,7 @@ def signin():
         res = cursor.fetchall()
         if rc == 0:
             d = {"result":"fail", "message":"no username found"}
+            return jsonify(d)
         if password != res[0]['pass']:
             d = {"result":"fail", "message":"wrong password"}
             return jsonify(d)     
